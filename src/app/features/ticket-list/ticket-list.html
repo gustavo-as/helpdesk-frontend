@@ -4,6 +4,23 @@
     <span class="count">{{ tickets().length }}</span>
   </header>
 
+  <div class="filters">
+  <button
+    class="filter"
+    [class.active]="selectedStatus() === null"
+    (click)="select(null)">
+    All
+  </button>
+  @for (status of statuses; track status) {
+    <button
+      class="filter"
+      [class.active]="selectedStatus() === status"
+      (click)="select(status)">
+      {{ status }}
+    </button>
+  }
+</div>
+
   <div class="ticket-grid">
     @for (ticket of tickets(); track ticket.id) {
       <article class="card" [class.breached]="ticket.slaBreached">
