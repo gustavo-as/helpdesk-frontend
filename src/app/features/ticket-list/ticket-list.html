@@ -23,7 +23,7 @@
 
   <div class="ticket-grid">
     @for (ticket of tickets(); track ticket.id) {
-      <article class="card" [class.breached]="ticket.slaBreached">
+      <article class="card" [class.breached]="ticket.slaBreached" [routerLink]="['/tickets', ticket.id]">
         <div class="card-top">
           <span class="id">#{{ ticket.id }}</span>
           <span [class]="'badge status-' + ticket.status.toLowerCase()">

@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -7,7 +8,7 @@ import { TicketSummary, TicketStatus } from '../../core/ticket.model';
 
 @Component({
   selector: 'app-ticket-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './ticket-list.html',
   styleUrl: './ticket-list.css',
 })

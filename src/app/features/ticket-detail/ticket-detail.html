@@ -1,0 +1,52 @@
+<div class="page">
+  <a class="back" routerLink="/tickets">← Back to tickets</a>
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  @if (ticket(); as t) {
+    <article class="detail">
+      <div class="detail-top">
+        <span class="id">#{{ t.id }}</span>
+        <span [class]="'badge status-' + t.status.toLowerCase()">{{ t.status }}</span>
+      </div>
+
+      <h1 class="title">{{ t.title }}</h1>
+      <p class="description">{{ t.description }}</p>
+
+      <div class="badges">
+        <span [class]="'badge priority-' + t.priority.toLowerCase()">{{ t.priority }}</span>
+        <span class="badge category">{{ t.category }}</span>
+        <span class="assignee">{{ t.assignee ?? 'unassigned' }}</span>
+        @if (t.slaBreached) {
+          <span class="sla-flag">⚠ SLA breached</span>
+        }
+      </div>
+
+      <section class="actions">
+        <span class="actions-label">Move to</span>
+        @for (next of t.allowedNext; track next) {
+          <button class="action-btn" (click)="transition(next)">{{ next }}</button>
+        } @empty {
+          <span class="terminal">Closed — no further transitions</span>
+        }
+      </section>
+
+      <section class="responses">
+        <h2>Responses</h2>
+        @for (r of t.responses; track r.id) {
+          <div class="response">
+            <div class="response-head">
+              <span class="author">{{ r.author }}</span>
+              <span class="when">{{ r.createdAt }}</span>
+            </div>
+            <p class="body">{{ r.body }}</p>
+          </div>
+        } @empty {
+          <p class="no-responses">No responses yet.</p>
+        }
+      </section>
+    </article>
+  }
+</div>
