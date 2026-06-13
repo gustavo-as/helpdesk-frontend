@@ -1,0 +1,14 @@
+<h1>Tickets</h1>
+
+@for (ticket of tickets(); track ticket.id) {
+  <div>
+    #{{ ticket.id }} — {{ ticket.title }}
+    [{{ ticket.status }}] [{{ ticket.priority }}] [{{ ticket.category }}]
+    — assignee: {{ ticket.assignee ?? 'unassigned' }}
+    @if (ticket.slaBreached) {
+      <strong> ⚠ SLA BREACHED</strong>
+    }
+  </div>
+} @empty {
+  <p>No tickets yet. Create one in Swagger and refresh.</p>
+}
