@@ -1,0 +1,47 @@
+<div class="page">
+  <a class="back" routerLink="/tickets">← Back to tickets</a>
+
+  <h1>New ticket</h1>
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  <form class="form" (ngSubmit)="submit()">
+    <label class="field">
+      <span class="label">Title</span>
+      <input class="text-input" [(ngModel)]="title" name="title" placeholder="Short summary" />
+    </label>
+
+    <label class="field">
+      <span class="label">Description</span>
+      <textarea class="text-area" [(ngModel)]="description" name="description"
+                placeholder="Describe the issue..."></textarea>
+    </label>
+
+    <div class="row">
+      <label class="field">
+        <span class="label">Priority</span>
+        <select class="select" [(ngModel)]="priority" name="priority">
+          @for (p of priorities; track p) {
+            <option [value]="p">{{ p }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="label">Category</span>
+        <select class="select" [(ngModel)]="category" name="category">
+          @for (c of categories; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    <button class="submit-btn" type="submit"
+            [disabled]="saving() || !title.trim() || !description.trim()">
+      {{ saving() ? 'Creating...' : 'Create ticket' }}
+    </button>
+  </form>
+</div>

@@ -7,11 +7,25 @@
 }
 
 .page-header {
+  justify-content: flex-start;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
+
+.new-btn {
+  margin-left: auto;
+  background: #4338ca;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+}
+
+.new-btn:hover { background: #3730a3; }
 
 .page-header h1 {
   font-size: 1.6rem;
