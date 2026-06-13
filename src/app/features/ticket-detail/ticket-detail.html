@@ -33,6 +33,12 @@
         }
       </section>
 
+      <section class="assign">
+        <span class="actions-label">Assign to</span>
+        <input class="text-input" [(ngModel)]="agent" placeholder="agent name" />
+        <button class="action-btn" (click)="assign()" [disabled]="!agent.trim()">Assign</button>
+      </section>
+
       <section class="responses">
         <h2>Responses</h2>
         @for (r of t.responses; track r.id) {
@@ -46,6 +52,13 @@
         } @empty {
           <p class="no-responses">No responses yet.</p>
         }
+        <div class="response-form">
+          <input class="text-input" [(ngModel)]="responseAuthor" placeholder="your name" />
+          <textarea class="text-area" [(ngModel)]="responseBody" placeholder="write a response..."></textarea>
+          <button class="action-btn" (click)="addResponse()" [disabled]="!responseBody.trim() || !responseAuthor.trim()">
+            Send
+          </button>
+        </div>
       </section>
     </article>
   }
