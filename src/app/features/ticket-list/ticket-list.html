@@ -1,14 +1,37 @@
-<h1>Tickets</h1>
+<div class="page">
+  <header class="page-header">
+    <h1>Tickets</h1>
+    <span class="count">{{ tickets().length }}</span>
+  </header>
 
-@for (ticket of tickets(); track ticket.id) {
-  <div>
-    #{{ ticket.id }} — {{ ticket.title }}
-    [{{ ticket.status }}] [{{ ticket.priority }}] [{{ ticket.category }}]
-    — assignee: {{ ticket.assignee ?? 'unassigned' }}
-    @if (ticket.slaBreached) {
-      <strong> ⚠ SLA BREACHED</strong>
+  <div class="ticket-grid">
+    @for (ticket of tickets(); track ticket.id) {
+      <article class="card" [class.breached]="ticket.slaBreached">
+        <div class="card-top">
+          <span class="id">#{{ ticket.id }}</span>
+          <span [class]="'badge status-' + ticket.status.toLowerCase()">
+            {{ ticket.status }}
+          </span>
+        </div>
+
+        <h2 class="title">{{ ticket.title }}</h2>
+
+        <div class="badges">
+          <span [class]="'badge priority-' + ticket.priority.toLowerCase()">
+            {{ ticket.priority }}
+          </span>
+          <span class="badge category">{{ ticket.category }}</span>
+        </div>
+
+        <div class="card-foot">
+          <span class="assignee">{{ ticket.assignee ?? 'unassigned' }}</span>
+          @if (ticket.slaBreached) {
+            <span class="sla-flag">⚠ SLA breached</span>
+          }
+        </div>
+      </article>
+    } @empty {
+      <p class="empty">No tickets yet. Create one in Swagger and refresh.</p>
     }
   </div>
-} @empty {
-  <p>No tickets yet. Create one in Swagger and refresh.</p>
-}
+</div>
