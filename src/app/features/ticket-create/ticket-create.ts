@@ -25,6 +25,33 @@ export class TicketCreate {
   readonly saving = signal(false);
   readonly error = signal<string | null>(null);
 
+  readonly suggesting = signal(false);
+  readonly suggestionMsg = signal<string | null>(null);
+
+  suggestCategory(): void {
+    if (!this.title.trim() || !this.description.trim()) {
+      this.suggestionMsg.set('Preencha título e descrição primeiro.');
+      return;
+    }
+    this.suggesting.set(true);
+    this.suggestionMsg.set(null);
+    this.api.suggestCategory(this.title.trim(), this.description.trim()).subscribe({
+      next: result => {
+        this.suggesting.set(false);
+        if (result.available && result.category) {
+          this.category = result.category;
+          this.suggestionMsg.set(`IA sugeriu: ${result.category} (aplicado — troque se discordar)`);
+        } else {
+          this.suggestionMsg.set('A IA não conseguiu sugerir. Escolha a categoria manualmente.');
+        }
+      },
+      error: () => {
+        this.suggesting.set(false);
+        this.suggestionMsg.set('Não foi possível consultar a IA agora. Escolha manualmente.');
+      },
+    });
+  }
+
   submit(): void {
     if (!this.title.trim() || !this.description.trim()) return;
     this.saving.set(true);

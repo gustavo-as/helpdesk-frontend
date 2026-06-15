@@ -19,6 +19,17 @@
                 placeholder="Describe the issue..."></textarea>
     </label>
 
+    <div class="suggest-box">
+      <button type="button" class="suggest-btn"
+              (click)="suggestCategory()"
+              [disabled]="suggesting()">
+        {{ suggesting() ? 'Consultando IA...' : '✨ Sugerir categoria com IA' }}
+      </button>
+      @if (suggestionMsg()) {
+        <span class="suggest-msg">{{ suggestionMsg() }}</span>
+      }
+    </div>
+
     <div class="row">
       <label class="field">
         <span class="label">Priority</span>

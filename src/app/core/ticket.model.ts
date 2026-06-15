@@ -42,3 +42,8 @@ export interface CreateTicketRequest {
   priority: Priority;
   category: Category;
 }
+
+export interface CategorySuggestion {
+  category: Category | null;
+  available: boolean;
+}
