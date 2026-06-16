@@ -47,3 +47,7 @@ export interface CategorySuggestion {
   category: Category | null;
   available: boolean;
 }
+
+export interface ReplyDraft {
+  draft: string;
+}

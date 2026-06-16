@@ -55,6 +55,16 @@
         <div class="response-form">
           <input class="text-input" [(ngModel)]="responseAuthor" placeholder="your name" />
           <textarea class="text-area" [(ngModel)]="responseBody" placeholder="write a response..."></textarea>
+          <div class="draft-row">
+            <button type="button" class="draft-btn"
+                    (click)="draftReply()"
+                    [disabled]="drafting()">
+              {{ drafting() ? 'Rascunhando...' : '✨ Rascunhar com IA' }}
+            </button>
+            @if (draftMsg()) {
+              <span class="draft-msg">{{ draftMsg() }}</span>
+            }
+          </div>
           <button class="action-btn" (click)="addResponse()" [disabled]="!responseBody.trim() || !responseAuthor.trim()">
             Send
           </button>

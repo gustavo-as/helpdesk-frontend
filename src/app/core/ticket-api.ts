@@ -6,7 +6,8 @@ import {
   TicketSummary,
   TicketStatus,
   CreateTicketRequest,
-  CategorySuggestion
+  CategorySuggestion,
+  ReplyDraft
 } from './ticket.model';
 
 @Injectable({ providedIn: 'root' })
@@ -43,5 +44,9 @@ export class TicketApi {
 
   suggestCategory(title: string, description: string): Observable<CategorySuggestion> {
     return this.http.post<CategorySuggestion>(this.classifyUrl, { title, description });
+  }
+
+  draftReply(id: number): Observable<ReplyDraft> {
+    return this.http.post<ReplyDraft>(`${this.baseUrl}/${id}/draft-reply`, {});
   }
 }

@@ -2,7 +2,7 @@ import { Component, effect, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TicketApi } from '../../core/ticket-api';
-import { Ticket, TicketStatus } from '../../core/ticket.model';
+import { Ticket, TicketStatus, ReplyDraft } from '../../core/ticket.model';
 
 
 @Component({
@@ -12,11 +12,13 @@ import { Ticket, TicketStatus } from '../../core/ticket.model';
   styleUrl: './ticket-detail.css',
 })
 export class TicketDetail {
-private readonly api = inject(TicketApi);
+  private readonly api = inject(TicketApi);
 
   readonly id = input.required<string>();
   readonly ticket = signal<Ticket | null>(null);
   readonly error = signal<string | null>(null);
+  readonly drafting = signal(false);
+  readonly draftMsg = signal<string | null>(null);
 
   agent = '';
   responseAuthor = '';
@@ -64,6 +66,24 @@ private readonly api = inject(TicketApi);
         this.responseAuthor = '';
       },
       error: () => this.error.set('Could not add response. Try again.'),
+    });
+  }
+
+  draftReply(): void {
+    const current = this.ticket();
+    if (!current) return;
+    this.drafting.set(true);
+    this.draftMsg.set(null);
+    this.api.draftReply(current.id).subscribe({
+      next: result => {
+        this.drafting.set(false);
+        this.responseBody = result.draft;
+        this.draftMsg.set('Rascunho gerado pela IA — revise e edite antes de enviar.');
+      },
+      error: () => {
+        this.drafting.set(false);
+        this.draftMsg.set('Não foi possível gerar o rascunho agora. Escreva manualmente.');
+      },
     });
   }
 }
