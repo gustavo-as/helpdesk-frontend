@@ -177,6 +177,31 @@
   cursor: pointer;
   transition: background 0.15s ease;
 }
+
 .draft-btn:hover:not(:disabled) { background: #e0e7ff; }
 .draft-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .draft-msg { font-size: 0.82rem; color: #4b5563; }
+
+.agent {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.9rem 0;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px dashed #c7d2fe;
+}
+.agent-btn {
+  border: 1px solid #6d28d9;
+  background: #6d28d9;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.agent-btn:hover:not(:disabled) { background: #5b21b6; }
+.agent-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.agent-msg { font-size: 0.85rem; color: #4b5563; }

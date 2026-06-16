@@ -7,7 +7,8 @@ import {
   TicketStatus,
   CreateTicketRequest,
   CategorySuggestion,
-  ReplyDraft
+  ReplyDraft,
+  AgentOutcome
 } from './ticket.model';
 
 @Injectable({ providedIn: 'root' })
@@ -48,5 +49,9 @@ export class TicketApi {
 
   draftReply(id: number): Observable<ReplyDraft> {
     return this.http.post<ReplyDraft>(`${this.baseUrl}/${id}/draft-reply`, {});
+  }
+
+  runAgent(id: number): Observable<AgentOutcome> {
+    return this.http.post<AgentOutcome>(`${this.baseUrl}/${id}/agent`, {});
   }
 }

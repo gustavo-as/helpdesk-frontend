@@ -19,6 +19,8 @@ export class TicketDetail {
   readonly error = signal<string | null>(null);
   readonly drafting = signal(false);
   readonly draftMsg = signal<string | null>(null);
+  readonly agentRunning = signal(false);
+  readonly agentMsg = signal<string | null>(null);
 
   agent = '';
   responseAuthor = '';
@@ -83,6 +85,32 @@ export class TicketDetail {
       error: () => {
         this.drafting.set(false);
         this.draftMsg.set('Não foi possível gerar o rascunho agora. Escreva manualmente.');
+      },
+    });
+  }
+
+  runAgent(): void {
+    const current = this.ticket();
+    if (!current) return;
+    this.agentRunning.set(true);
+    this.agentMsg.set(null);
+    this.api.runAgent(current.id).subscribe({
+      next: outcome => {
+        this.agentRunning.set(false);
+        this.agentMsg.set(
+          outcome.result === 'RESOLVED'
+            ? 'O agente resolveu o chamado e respondeu o cliente.'
+            : 'O agente escalou para um humano: ' + outcome.message
+        );
+        this.api.get(current.id).subscribe(t => this.ticket.set(t));
+      },
+      error: err => {
+        this.agentRunning.set(false);
+        this.agentMsg.set(
+          err.status === 503
+            ? 'O agente está desligado no servidor.'
+            : 'Não foi possível executar o agente agora.'
+        );
       },
     });
   }

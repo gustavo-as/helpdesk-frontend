@@ -5,6 +5,17 @@
     <div class="error">{{ error() }}</div>
   }
 
+  <section class="agent">
+    <button type="button" class="agent-btn"
+            (click)="runAgent()"
+            [disabled]="agentRunning()">
+      {{ agentRunning() ? 'Agente trabalhando...' : '🤖 Deixar o agente resolver' }}
+    </button>
+    @if (agentMsg()) {
+      <span class="agent-msg">{{ agentMsg() }}</span>
+    }
+  </section>
+
   @if (ticket(); as t) {
     <article class="detail">
       <div class="detail-top">

@@ -51,3 +51,9 @@ export interface CategorySuggestion {
 export interface ReplyDraft {
   draft: string;
 }
+
+export interface AgentOutcome {
+  result: 'RESOLVED' | 'ESCALATED';
+  message: string;
+  status: TicketStatus;
+}
